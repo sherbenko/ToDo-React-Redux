@@ -1,40 +1,58 @@
 import React, {Component} from 'react'
 import './post-add-form.css'
+import {bindActionCreators} from "redux";
+import {addPost, handleAddForm} from "../../actions/postActions";
+import {connect} from "react-redux";
 
-export default class PostAddForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            postValue:''
-        }
-    }
+class PostAddForm extends Component {
+
 
     handleChange = (e) => {
-        this.setState ({postValue: e.target.value});
-        console.log(this.state.postValue)
+        this.props.handleAddForm(e.target.value)
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.addPost(this.props.postValue)
     }
 
     render() {
-        const {addItem} =this.props;
-        const {postValue} = this.state;
+        const {postValue} = this.props
         return (
-            <form className="bottom-panel d-flex">
+            <form className="bottom-panel d-flex" onSubmit={this.handleSubmit}>
                 <input
                     type="text"
                     placeholder="О чем вы думаете сейчас?"
                     className="form-control new-post-label"
+                    value={postValue}
                     onChange={this.handleChange}
                 />
                 <button
-                    type="button"
+                    type="submit"
                     className="btn btn-outline-secondary"
-                    onClick={() => addItem(postValue)}
                 >
-                    Добавить</button>
+                    Добавить
+                </button>
             </form>
         )
+    }
 
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        addPost,
+        handleAddForm
+    }, dispatch)
+
+}
+const mapStateToProps = (state) => {
+    return {
+        postValue:state.postValue
     }
 
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostAddForm);
 

@@ -1,29 +1,13 @@
-import React, {Component} from 'react'
-import './post-list-item.css'
+import React, {Component} from 'react';
+import './post-list-item.css';
 
 
 
-export default class PostListItem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            important: false,
-            like: false
-        }
-    }
-     toggleImportant = () => {
-        this.setState(({important}) => ({
-            important:!important
-        }))
-    }
-    toggleLike = () => {
-        this.setState(({like}) => ({
-            like:!like
-        }))
-    }
+
+ class PostListItem extends Component {
+
     render() {
-        const {important, like} = this.state;
-        const {label, onDelete} = this.props;
+        const {label, onDelete, onToggleImportant, onToggleLike, important, like} = this.props;
         let classNames = "app-list-item d-flex justify-content-between";
         if (important) {
             classNames += ' important';
@@ -33,12 +17,12 @@ export default class PostListItem extends Component {
         }
         return(
             <div className={classNames}>
-            <span className="app-list-item-label" onClick={this.toggleLike}>
+            <span className="app-list-item-label" onClick={onToggleLike}>
                {label}
             </span>
                 <div className="d-flex justify-content-center align-items-center">
                     <button className="btn-star btn-sm"
-                    onClick={this.toggleImportant}>
+                    onClick={onToggleImportant}>
                         <i className="fa fa-star"/>
                     </button>
                     <button className="btn-trash btn-sm" onClick={onDelete}>
@@ -51,3 +35,8 @@ export default class PostListItem extends Component {
     }
 
 }
+
+
+export default PostListItem;
+
+

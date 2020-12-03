@@ -5,45 +5,60 @@ import PostList from "../post-list/post-list";
 import SearchPanel from "../search-panel/search-panel";
 import './app.css'
 import PostStatusFilter from "../post-status-filter/post-status-filter";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {filterPost, searchPost} from "../../actions/postActions";
 
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data : [
-                {id:1, label:'label 1', important: false},
-                {id:2, label:'label 2', important: true},
-                {id:3, label:'label 3', important: true}
-            ]
-        }
-
-    }
-
-    deleteItem = (id) => {
-        const newArr = this.state.data.filter(item => item.id !== id)
-        this.setState({data: newArr})
-        console.log(this.state.data)
-    }
-
-    addItem = (body, important = false) => {
-        const newPost = {id: this.state.data.length, label: body, important: important}
-        console.log(newPost)
-        this.setState({data: [...this.state.data,newPost]})
-    }
+class App extends Component {
 
     render() {
-        return(
+        const {posts, filter, filtered, term, isChanged, searchPost, filterPost, postValue} = this.props;
+        const countLike = posts.filter(item => item.like).length;
+        const countPost = posts.length;
+        const filteredPosts = isChanged ? filtered : posts;
+
+        return (
             <div className="app">
-                <AppHeader/>
+                <AppHeader countLike={countLike}
+                           countPost={countPost}/>
                 <div className="search-panel d-flex">
-                    <SearchPanel/>
-                    <PostStatusFilter/>
+                    <SearchPanel
+                        filter={filter}
+                        searchValue={term}
+                        onUpdateSearch={searchPost}/>
+                    <PostStatusFilter
+                        filter={filter}
+                        data={filteredPosts}
+                        onFilterSelect={filterPost}/>
                 </div>
-                <PostList items = {this.state.data} onDelete={this.deleteItem} />
-                <PostAddForm addItem={this.addItem}/>
+                <PostList
+                    posts={filteredPosts}
+                />
+                <PostAddForm
+                    postValue={postValue}
+                />
             </div>
         )
-}
+    }
 
 }
+
+const mapStateToProps = (state) => {
+    const {posts, filter, filtered, term, isChanged, postValue} = state
+    return {
+        posts,
+        filter,
+        filtered,
+        term,
+        isChanged,
+        postValue
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        searchPost,
+        filterPost
+    }, dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)
