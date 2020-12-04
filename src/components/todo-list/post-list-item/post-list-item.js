@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './post-list-item.css';
 
-
-
-
  class PostListItem extends Component {
 
     render() {
@@ -12,6 +9,7 @@ import './post-list-item.css';
         if (important) {
             classNames += ' important';
         }
+
         if (like) {
             classNames += ' like';
         }

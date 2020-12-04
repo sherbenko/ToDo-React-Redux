@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import './post-add-form.css'
 import {bindActionCreators} from "redux";
-import {addPost, handleAddForm} from "../../actions/postActions";
+import {addPost, handleAddForm} from "../../../actions/postActions";
 import {connect} from "react-redux";
 
 class PostAddForm extends Component {
@@ -48,8 +48,9 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 const mapStateToProps = (state) => {
+    const {postValue} = state.postReducer;
     return {
-        postValue:state.postValue
+        postValue
     }
 
 }

@@ -3,7 +3,7 @@ import PostListItem from "../post-list-item";
 import './post-list.css'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {deletePost, onToggleImportant, onToggleLike} from "../../actions/postActions";
+import {deletePost, onToggleImportant, onToggleLike} from "../../../actions/postActions";
 
 
 const PostList = ({posts, onToggleLike, deletePost,onToggleImportant}) => {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './post-status-filter.css'
-import {BUTTONS} from "../../constants/constants";
+import {BUTTONS} from "../../../constants/constants";
 
 
 
